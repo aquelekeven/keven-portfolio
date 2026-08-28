@@ -95,6 +95,11 @@
   };
 
   const onScroll = () => {
+    const nextScrollY = window.scrollY;
+    if (Math.abs(nextScrollY - lastScrollY) > 2) {
+      page.classList.toggle("is-scrolling-up", nextScrollY < lastScrollY);
+      lastScrollY = nextScrollY;
+    }
     measure();
     if (!frame) {
       lastFrame = performance.now();
@@ -102,14 +107,16 @@
     }
   };
 
+  let lastScrollY = window.scrollY;
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      if (entry.isIntersecting) {
+      if (entry.intersectionRatio >= 0.08) {
         entry.target.classList.add("is-visible");
-        revealObserver.unobserve(entry.target);
+      } else {
+        entry.target.classList.remove("is-visible");
       }
     });
-  }, { threshold: 0.12, rootMargin: "0px 0px -8%" });
+  }, { threshold: [0, 0.08, 0.18], rootMargin: "0px 0px -4%" });
   document.querySelectorAll(".reveal").forEach((element) => revealObserver.observe(element));
 
   document.querySelectorAll(".contact-card").forEach((card) => {
