@@ -16,12 +16,16 @@
       <div class="highlight-card__meta"><h3>${item.title}</h3><p>${item.category}</p></div>
     </article>`;
 
-  document.querySelector("#highlight-top").innerHTML = highlights.slice(0, 6).map(highlightMarkup).join("");
-  document.querySelector("#highlight-bottom").innerHTML = highlights.slice(6).map((item, index) => highlightMarkup(item, index + 6)).join("");
+  const topHighlights = highlights.slice(0, 6);
+  const bottomHighlights = highlights.slice(6);
+  const repeatToFill = (items) => [...items, ...items.slice(0, 4)];
+  document.querySelector("#highlight-top").innerHTML = repeatToFill(topHighlights).map(highlightMarkup).join("");
+  document.querySelector("#highlight-bottom").innerHTML = repeatToFill(bottomHighlights).map((item, index) => highlightMarkup(item, (index % bottomHighlights.length) + 6)).join("");
 
   document.querySelector("#service-list").innerHTML = services.map((service, index) => `
     <article class="service-row reveal">
-      <span>${String(index + 1).padStart(2, "0")}</span><h3>${service.title}</h3><p>${service.description}</p><b aria-hidden="true">↗</b>
+      <div class="service-row__marker"><span>${String(index + 1).padStart(2, "0")}</span><i aria-hidden="true"></i></div>
+      <div class="service-row__content"><p>Atuação / ${String(index + 1).padStart(2, "0")}</p><h3>${service.title}</h3><div class="service-row__description">${service.description}</div></div>
     </article>`).join("");
 
   document.querySelector("#project-stage").innerHTML = projects.map((project, index) => `
@@ -43,6 +47,12 @@
     return Math.min(1, Math.max(0, -rect.top / travel));
   };
 
+  const visibleProgressFor = (element) => {
+    const rect = element.getBoundingClientRect();
+    const travel = Math.max(element.offsetHeight + window.innerHeight, 1);
+    return Math.min(1, Math.max(0, (window.innerHeight - rect.top) / travel));
+  };
+
   let frame = 0;
   let lastFrame = performance.now();
   const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -51,7 +61,7 @@
 
   const measure = () => {
     target.hero = progressFor(hero);
-    target.highlights = progressFor(highlightsSection);
+    target.highlights = visibleProgressFor(highlightsSection);
     const projectProgress = progressFor(projectScroll);
     projects.forEach((_, index) => {
       target.projects[index] = index === 0 ? 1 : Math.min(1, Math.max(0, projectProgress * (projects.length - 1) - (index - 1)));
@@ -66,6 +76,10 @@
     current.hero += (target.hero - current.hero) * ease;
     current.highlights += (target.highlights - current.highlights) * ease;
     page.style.setProperty("--hero-progress", current.hero.toFixed(4));
+    const heroTextProgress = Math.min(1, Math.max(0, (current.hero - 0.06) / 0.2));
+    const heroArtExit = Math.min(1, Math.max(0, (current.hero - 0.66) / 0.2));
+    page.style.setProperty("--hero-text-progress", heroTextProgress.toFixed(4));
+    page.style.setProperty("--hero-art-exit", heroArtExit.toFixed(4));
     page.style.setProperty("--highlights-progress", current.highlights.toFixed(4));
     projects.forEach((_, index) => {
       current.projects[index] += (target.projects[index] - current.projects[index]) * ease;
