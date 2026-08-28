@@ -45,15 +45,37 @@
   const caseProjectCategory = document.querySelector("#case-project-category");
   const caseScene = document.querySelector("#case-scene");
   const caseMedia = document.querySelector("#case-media");
-  const caseLabel = document.querySelector("#case-label");
-  const caseTitle = document.querySelector("#case-title");
-  const caseDescription = document.querySelector("#case-description");
-  const caseChapterCount = document.querySelector("#case-chapter-count");
   const caseRail = document.querySelector("#case-rail");
+  const caseTimerLabel = document.querySelector("#case-timer-label");
+  const caseTimerProgress = document.querySelector("#case-timer-progress");
+  const caseVideoSwitch = document.querySelector("#case-video-switch");
   let activeProjectIndex = 0;
   let activeChapterIndex = 0;
+  let activeVideoFormat = "horizontal";
   let lastProjectTrigger = null;
   let pointerStart = null;
+  let caseTimerId = 0;
+
+  const stopCaseTimer = () => {
+    clearInterval(caseTimerId);
+    caseTimerId = 0;
+  };
+
+  const startCaseTimer = () => {
+    stopCaseTimer();
+    const startedAt = performance.now();
+    const duration = 30000;
+    const updateTimer = () => {
+      const remaining = Math.max(0, duration - (performance.now() - startedAt));
+      caseTimerLabel.textContent = `${String(activeChapterIndex + 1).padStart(2, "0")} / ${String(projects[activeProjectIndex].chapters.length).padStart(2, "0")} · próxima em ${Math.ceil(remaining / 1000)}s`;
+      caseTimerProgress.style.width = `${(remaining / duration) * 100}%`;
+      if (remaining <= 0) moveChapter(1);
+    };
+    updateTimer();
+    caseTimerId = setInterval(updateTimer, 250);
+  };
+
+  const renderVideoPlaceholder = () => `<div class="case-video-placeholder" data-format="${activeVideoFormat}"><span>Vídeo ${activeVideoFormat === "vertical" ? "vertical" : "horizontal"}</span><b>▶</b><small>Arquivo será adicionado aqui</small></div>`;
 
   const renderCase = () => {
     const project = projects[activeProjectIndex];
@@ -61,18 +83,23 @@
     caseProjectCount.textContent = `${String(activeProjectIndex + 1).padStart(2, "0")} / ${String(projects.length).padStart(2, "0")}`;
     caseProjectTitle.textContent = project.title;
     caseProjectCategory.textContent = project.category;
-    caseLabel.textContent = chapter.label;
-    caseTitle.textContent = chapter.title;
-    caseDescription.textContent = chapter.description;
-    caseChapterCount.textContent = `${String(activeChapterIndex + 1).padStart(2, "0")} / ${String(project.chapters.length).padStart(2, "0")}`;
     caseScene.dataset.scene = chapter.scene;
-    caseMedia.innerHTML = chapter.scene === "overview" ? logoMarkup(project, "case") : `<span class="case-viewer__mark">${chapter.mark}</span>${chapter.scene === "video" ? '<span class="case-viewer__play" aria-hidden="true">▶</span>' : ""}`;
+    caseScene.classList.toggle("has-media", Boolean(chapter.image));
+    caseMedia.innerHTML = chapter.image
+      ? `<img class="case-viewer__content-image" src="${chapter.image}" alt="${chapter.title}" decoding="async">`
+      : chapter.scene === "video"
+        ? renderVideoPlaceholder()
+        : chapter.scene === "overview" ? logoMarkup(project, "case") : `<span class="case-viewer__mark">${chapter.mark}</span>`;
+    caseVideoSwitch.hidden = chapter.scene !== "video";
+    caseVideoSwitch.querySelectorAll("button").forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.videoFormat === activeVideoFormat)));
     caseRail.innerHTML = project.chapters.map((item, index) => `<button type="button" data-chapter-index="${index}" aria-pressed="${index === activeChapterIndex}">${item.label}</button>`).join("");
+    startCaseTimer();
   };
 
   const moveChapter = (direction) => {
     const total = projects[activeProjectIndex].chapters.length;
     activeChapterIndex = (activeChapterIndex + direction + total) % total;
+    activeVideoFormat = "horizontal";
     renderCase();
   };
 
@@ -82,6 +109,7 @@
     lastProjectTrigger = trigger;
     activeProjectIndex = Number(trigger.dataset.projectIndex);
     activeChapterIndex = 0;
+    activeVideoFormat = "horizontal";
     renderCase();
     document.body.classList.add("case-is-open");
     caseViewer.showModal();
@@ -91,12 +119,22 @@
     const trigger = event.target.closest("[data-chapter-index]");
     if (!trigger) return;
     activeChapterIndex = Number(trigger.dataset.chapterIndex);
+    activeVideoFormat = "horizontal";
     renderCase();
+  });
+  caseVideoSwitch.addEventListener("click", (event) => {
+    const trigger = event.target.closest("[data-video-format]");
+    if (!trigger) return;
+    activeVideoFormat = trigger.dataset.videoFormat;
+    caseMedia.innerHTML = renderVideoPlaceholder();
+    caseVideoSwitch.querySelectorAll("button").forEach((button) => button.setAttribute("aria-pressed", String(button === trigger)));
+    startCaseTimer();
   });
   document.querySelector("#case-prev").addEventListener("click", () => moveChapter(-1));
   document.querySelector("#case-next").addEventListener("click", () => moveChapter(1));
   document.querySelector("#case-close").addEventListener("click", () => caseViewer.close());
   caseViewer.addEventListener("close", () => {
+    stopCaseTimer();
     document.body.classList.remove("case-is-open");
     lastProjectTrigger?.focus();
   });
