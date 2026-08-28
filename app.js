@@ -28,6 +28,21 @@
       <div class="service-row__content"><p>Atuação / ${String(index + 1).padStart(2, "0")}</p><h3>${service.title}</h3><div class="service-row__description">${service.description}</div></div>
     </article>`).join("");
 
+  const toolsUsed = [
+    { name: "Photoshop", mark: "Ps", color: "#31a8ff" },
+    { name: "Illustrator", mark: "Ai", color: "#ff9a00" },
+    { name: "InDesign", mark: "Id", color: "#ff3366" },
+    { name: "After Effects", mark: "Ae", color: "#9999ff" },
+    { name: "Premiere Pro", mark: "Pr", color: "#9999ff" },
+    { name: "DaVinci Resolve", mark: "Dv", color: "#ffcf48" },
+    { name: "ChatGPT", mark: "GPT", color: "#74aa9c" },
+    { name: "Canva", mark: "Ca", color: "#7d2ae8" },
+    { name: "GitHub", mark: "GH", color: "#f2f2ee" },
+    { name: "CapCut", mark: "Cc", color: "#f2f2ee" }
+  ];
+  const toolDockGroup = (hidden = false) => `<div class="tool-dock__group"${hidden ? ' aria-hidden="true"' : ""}>${toolsUsed.map((tool) => `<div class="tool-dock__item" style="--tool-color:${tool.color}"><span class="tool-dock__icon">${tool.mark}</span><strong>${tool.name}</strong></div>`).join("")}</div>`;
+  document.querySelector("#tool-dock-track").innerHTML = toolDockGroup() + toolDockGroup(true);
+
   const logoMarkup = (project, context = "grid") => project.logoImage
     ? `<img class="project-logo project-logo--${context}" src="${project.logoImage}" alt="${project.logoAlt}" loading="lazy" decoding="async">`
     : `<span class="project-wordmark project-wordmark--${project.logoClass} project-wordmark--${context}" aria-label="${project.title}">${project.logoText.split("|").map((line) => `<span>${line}</span>`).join("")}</span>`;
