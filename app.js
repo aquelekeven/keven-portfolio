@@ -57,22 +57,17 @@
   let caseTimerId = 0;
 
   const stopCaseTimer = () => {
-    clearInterval(caseTimerId);
+    clearTimeout(caseTimerId);
     caseTimerId = 0;
   };
 
   const startCaseTimer = () => {
     stopCaseTimer();
-    const startedAt = performance.now();
-    const duration = 30000;
-    const updateTimer = () => {
-      const remaining = Math.max(0, duration - (performance.now() - startedAt));
-      caseTimerLabel.textContent = `${String(activeChapterIndex + 1).padStart(2, "0")} / ${String(projects[activeProjectIndex].chapters.length).padStart(2, "0")} · próxima em ${Math.ceil(remaining / 1000)}s`;
-      caseTimerProgress.style.width = `${(remaining / duration) * 100}%`;
-      if (remaining <= 0) moveChapter(1);
-    };
-    updateTimer();
-    caseTimerId = setInterval(updateTimer, 250);
+    caseTimerLabel.setAttribute("aria-label", `Próxima aba em 30 segundos. Capítulo ${activeChapterIndex + 1} de ${projects[activeProjectIndex].chapters.length}.`);
+    caseTimerProgress.style.animation = "none";
+    void caseTimerProgress.offsetWidth;
+    caseTimerProgress.style.animation = "case-timer-drain 30s linear forwards";
+    caseTimerId = setTimeout(() => moveChapter(1), 30000);
   };
 
   const renderVideoPlaceholder = () => `<div class="case-video-placeholder" data-format="${activeVideoFormat}"><span>Vídeo ${activeVideoFormat === "vertical" ? "vertical" : "horizontal"}</span><b>▶</b><small>Arquivo será adicionado aqui</small></div>`;
