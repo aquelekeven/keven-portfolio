@@ -112,6 +112,14 @@
   }, { threshold: 0.12, rootMargin: "0px 0px -8%" });
   document.querySelectorAll(".reveal").forEach((element) => revealObserver.observe(element));
 
+  document.querySelectorAll(".contact-card").forEach((card) => {
+    card.addEventListener("pointermove", (event) => {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty("--card-x", `${event.clientX - rect.left}px`);
+      card.style.setProperty("--card-y", `${event.clientY - rect.top}px`);
+    });
+  });
+
   measure();
   frame = requestAnimationFrame(render);
   addEventListener("scroll", onScroll, { passive: true });
