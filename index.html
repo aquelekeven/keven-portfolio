@@ -71,10 +71,27 @@
 
       <section class="projects" id="projetos" aria-labelledby="projects-title">
         <div class="section-shell projects__heading reveal">
-          <div class="section-heading section-heading--light"><p class="eyebrow">Projetos / 04</p><h2 id="projects-title">Projetos</h2><p class="section-intro">Um projeto por vez. Role para avançar ou voltar.</p></div>
+          <div class="section-heading section-heading--light"><p class="eyebrow">Projetos / 04</p><h2 id="projects-title">Projetos</h2><p class="section-intro">Selecione uma marca para explorar o projeto completo.</p></div>
         </div>
-        <div class="project-scroll" id="project-scroll"><div class="project-stage" id="project-stage"></div></div>
+        <div class="project-index section-shell"><div class="project-logo-grid" id="project-logo-grid"></div></div>
       </section>
+
+      <dialog class="case-viewer" id="case-viewer" aria-labelledby="case-project-title">
+        <div class="case-viewer__shell">
+          <header class="case-viewer__topbar">
+            <div><span id="case-project-count">01 / 03</span><strong id="case-project-title">Only Cars Club</strong><em id="case-project-category">Branding / Automotivo</em></div>
+            <button type="button" id="case-close" aria-label="Fechar projeto">Fechar case <span>×</span></button>
+          </header>
+          <div class="case-viewer__stage">
+            <div class="case-viewer__visual"><div class="case-viewer__scene" id="case-scene" data-scene="overview"></div><div class="case-viewer__media" id="case-media"></div></div>
+            <aside class="case-viewer__info" aria-live="polite">
+              <div><span class="case-viewer__label" id="case-label">Visão geral</span><h3 id="case-title">O universo do projeto</h3><p id="case-description"></p><div class="case-viewer__chapter-count" id="case-chapter-count">01 / 06</div></div>
+              <div class="case-viewer__controls"><button type="button" id="case-prev">← Anterior</button><button type="button" id="case-next">Próxima →</button></div>
+            </aside>
+          </div>
+          <nav class="case-viewer__rail" id="case-rail" aria-label="Capítulos do projeto"></nav>
+        </div>
+      </dialog>
 
       <footer class="contact" id="contato">
         <span class="contact__glow contact__glow--left" aria-hidden="true"></span>

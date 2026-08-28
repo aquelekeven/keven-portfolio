@@ -20,9 +20,32 @@ window.portfolioData = {
     { id: "service-04", title: "Conteúdo digital", description: "Conteúdo para marcas, eventos e redes sociais com intenção e consistência." }
   ],
   projects: [
-    { id: "project-01", title: "Only Cars Club", category: "Evento / Automotivo", year: "2026", label: "Projeto conceitual", summary: "Um filme de atmosfera para transformar encontro automotivo em cultura, comunidade e desejo.", tags: ["Direção", "Captação", "Edição"], image: "https://images.unsplash.com/photo-1659387921501-7102cd54734a?auto=format&fit=crop&w=1800&q=86" },
-    { id: "project-02", title: "Linha Amarela", category: "Campanha / Moda", year: "2026", label: "Projeto conceitual", summary: "Identidade de campanha construída com cor, movimento e uma edição direta para social e mídia digital.", tags: ["Conceito", "Motion", "Social"], image: "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1800&q=86" },
-    { id: "project-03", title: "Noite em Movimento", category: "Música / Experiência", year: "2025", label: "Projeto conceitual", summary: "Aftermovie guiado pelo pulso da pista, luzes e detalhes que fazem o público reviver a experiência.", tags: ["Aftermovie", "Color", "Sound"], image: "https://images.unsplash.com/photo-1570489679487-936e2897d793?auto=format&fit=crop&w=1800&q=86" },
-    { id: "project-04", title: "Studio 17", category: "Branding / Digital", year: "2025", label: "Projeto conceitual", summary: "Sistema visual flexível para um estúdio criativo que trabalha entre imagem, espaço e tecnologia.", tags: ["Branding", "Design", "Web"], image: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1800&q=86" }
+    {
+      id: "only-cars-club", title: "Only Cars Club", category: "Branding / Automotivo", year: "2026", logoImage: "only-logo.webp", logoAlt: "Only Cars Club", logoClass: "only",
+      chapters: [
+        { title: "O universo do Only", label: "Visão geral", scene: "overview", mark: "Only", description: "Uma visão geral do projeto, da comunidade e da linguagem criada para conectar cultura automotiva, evento e produto." },
+        { title: "Uma marca que evoluiu", label: "Rebranding", scene: "branding", mark: "Rebrand", description: "Evolução do posicionamento, do símbolo e da assinatura para construir uma presença mais forte e reconhecível." },
+        { title: "Sistema visual", label: "Identidade visual", scene: "identity", mark: "ID visual", description: "Cores, tipografia, grafismos e regras que mantêm a marca consistente em diferentes formatos e pontos de contato." },
+        { title: "Personagem e atitude", label: "Mascote 3D", scene: "mascot", mark: "Mascote", description: "Desenvolvimento do personagem, suas poses, expressões e aplicações como uma extensão da personalidade do Only." },
+        { title: "Movimento e atmosfera", label: "Vídeo", scene: "video", mark: "Play", description: "Conteúdos audiovisuais que traduzem energia, velocidade e o clima dos encontros do Only." },
+        { title: "A marca no mundo real", label: "Aplicações", scene: "applications", mark: "Aplicações", description: "Evento, social, roupas, copos, adesivos e outras peças que expandem a identidade para além da tela." }
+      ]
+    },
+    {
+      id: "fundacao-bradesco", title: "Fundação Bradesco", category: "Editorial / Institucional", year: "2025", logoText: "fundação|bradesco", logoClass: "foundation", placeholder: true,
+      chapters: [
+        { title: "Contexto do projeto", label: "Visão geral", scene: "overview", mark: "FB", description: "Conteúdo e imagens provisórios para demonstrar como um segundo case funciona dentro da mesma experiência." },
+        { title: "Clareza institucional", label: "Identidade", scene: "identity", mark: "Sistema", description: "Exemplo de capítulo para apresentar linguagem visual, hierarquia e consistência de comunicação." },
+        { title: "Publicações e materiais", label: "Editorial", scene: "editorial", mark: "Editorial", description: "Espaço provisório para revistas, livros, relatórios, peças digitais e demais aplicações editoriais." }
+      ]
+    },
+    {
+      id: "projeto-xyz", title: "Projeto XYZ", category: "Branding / Digital", year: "2025", logoText: "XYZ|studio", logoClass: "xyz", placeholder: true,
+      chapters: [
+        { title: "Uma ideia em construção", label: "Visão geral", scene: "overview", mark: "XYZ", description: "Projeto provisório usado para validar a vitrine de logos e o visualizador interno de cases." },
+        { title: "Linguagem da marca", label: "Branding", scene: "branding", mark: "Brand", description: "Exemplo de apresentação do conceito, assinatura, tipografia e elementos principais da marca." },
+        { title: "Presença digital", label: "Aplicações", scene: "applications", mark: "Digital", description: "Exemplo de capítulo para peças sociais, interfaces e campanhas digitais." }
+      ]
+    }
   ]
 };

@@ -3,7 +3,8 @@
   const page = document.querySelector("#page");
   const hero = document.querySelector("#inicio");
   const highlightsSection = document.querySelector("#destaques");
-  const projectScroll = document.querySelector("#project-scroll");
+  const projectLogoGrid = document.querySelector("#project-logo-grid");
+  const caseViewer = document.querySelector("#case-viewer");
 
   const highlightMarkup = (item, index) => `
     <article class="highlight-card">
@@ -27,18 +28,91 @@
       <div class="service-row__content"><p>Atuação / ${String(index + 1).padStart(2, "0")}</p><h3>${service.title}</h3><div class="service-row__description">${service.description}</div></div>
     </article>`).join("");
 
-  document.querySelector("#project-stage").innerHTML = projects.map((project, index) => `
-    <article class="project-card" style="--card-progress:var(--project-${index});z-index:${index + 1}">
-      <div class="project-card__visual">
-        <img src="${project.image}" alt="" loading="${index === 0 ? "eager" : "lazy"}" decoding="async">
-        <div class="project-card__topline"><span>${String(index + 1).padStart(2, "0")}</span><span>${project.label}</span><span>${project.year}</span></div>
-        <div class="project-card__content">
-          <p>${project.category}</p><strong>${project.title}</strong><p>${project.summary}</p>
-          <ul aria-label="Disciplinas do projeto">${project.tags.map((tag) => `<li>${tag}</li>`).join("")}</ul>
-        </div>
-      </div>
-      <div class="project-card__meta"><p>${project.category}</p><p>${String(index + 1).padStart(2, "0")} / ${String(projects.length).padStart(2, "0")}</p></div>
-    </article>`).join("");
+  const logoMarkup = (project, context = "grid") => project.logoImage
+    ? `<img class="project-logo project-logo--${context}" src="${project.logoImage}" alt="${project.logoAlt}" loading="lazy" decoding="async">`
+    : `<span class="project-wordmark project-wordmark--${project.logoClass} project-wordmark--${context}" aria-label="${project.title}">${project.logoText.split("|").map((line) => `<span>${line}</span>`).join("")}</span>`;
+
+  projectLogoGrid.innerHTML = projects.map((project, index) => `
+    <button class="project-logo-card reveal" type="button" data-project-index="${index}" aria-label="Explorar projeto ${project.title}">
+      <span class="project-logo-card__number">${String(index + 1).padStart(2, "0")}</span>
+      <span class="project-logo-card__brand">${logoMarkup(project)}</span>
+      <span class="project-logo-card__meta"><span>${project.category}</span><strong>Explorar case ↗</strong></span>
+      ${project.placeholder ? '<span class="project-logo-card__placeholder">Logo provisória</span>' : ""}
+    </button>`).join("");
+
+  const caseProjectCount = document.querySelector("#case-project-count");
+  const caseProjectTitle = document.querySelector("#case-project-title");
+  const caseProjectCategory = document.querySelector("#case-project-category");
+  const caseScene = document.querySelector("#case-scene");
+  const caseMedia = document.querySelector("#case-media");
+  const caseLabel = document.querySelector("#case-label");
+  const caseTitle = document.querySelector("#case-title");
+  const caseDescription = document.querySelector("#case-description");
+  const caseChapterCount = document.querySelector("#case-chapter-count");
+  const caseRail = document.querySelector("#case-rail");
+  let activeProjectIndex = 0;
+  let activeChapterIndex = 0;
+  let lastProjectTrigger = null;
+  let pointerStart = null;
+
+  const renderCase = () => {
+    const project = projects[activeProjectIndex];
+    const chapter = project.chapters[activeChapterIndex];
+    caseProjectCount.textContent = `${String(activeProjectIndex + 1).padStart(2, "0")} / ${String(projects.length).padStart(2, "0")}`;
+    caseProjectTitle.textContent = project.title;
+    caseProjectCategory.textContent = project.category;
+    caseLabel.textContent = chapter.label;
+    caseTitle.textContent = chapter.title;
+    caseDescription.textContent = chapter.description;
+    caseChapterCount.textContent = `${String(activeChapterIndex + 1).padStart(2, "0")} / ${String(project.chapters.length).padStart(2, "0")}`;
+    caseScene.dataset.scene = chapter.scene;
+    caseMedia.innerHTML = chapter.scene === "overview" ? logoMarkup(project, "case") : `<span class="case-viewer__mark">${chapter.mark}</span>${chapter.scene === "video" ? '<span class="case-viewer__play" aria-hidden="true">▶</span>' : ""}`;
+    caseRail.innerHTML = project.chapters.map((item, index) => `<button type="button" data-chapter-index="${index}" aria-pressed="${index === activeChapterIndex}">${item.label}</button>`).join("");
+  };
+
+  const moveChapter = (direction) => {
+    const total = projects[activeProjectIndex].chapters.length;
+    activeChapterIndex = (activeChapterIndex + direction + total) % total;
+    renderCase();
+  };
+
+  projectLogoGrid.addEventListener("click", (event) => {
+    const trigger = event.target.closest("[data-project-index]");
+    if (!trigger) return;
+    lastProjectTrigger = trigger;
+    activeProjectIndex = Number(trigger.dataset.projectIndex);
+    activeChapterIndex = 0;
+    renderCase();
+    document.body.classList.add("case-is-open");
+    caseViewer.showModal();
+  });
+
+  caseRail.addEventListener("click", (event) => {
+    const trigger = event.target.closest("[data-chapter-index]");
+    if (!trigger) return;
+    activeChapterIndex = Number(trigger.dataset.chapterIndex);
+    renderCase();
+  });
+  document.querySelector("#case-prev").addEventListener("click", () => moveChapter(-1));
+  document.querySelector("#case-next").addEventListener("click", () => moveChapter(1));
+  document.querySelector("#case-close").addEventListener("click", () => caseViewer.close());
+  caseViewer.addEventListener("close", () => {
+    document.body.classList.remove("case-is-open");
+    lastProjectTrigger?.focus();
+  });
+  caseViewer.querySelector(".case-viewer__visual").addEventListener("pointerdown", (event) => { pointerStart = { x: event.clientX, y: event.clientY }; });
+  caseViewer.querySelector(".case-viewer__visual").addEventListener("pointerup", (event) => {
+    if (!pointerStart) return;
+    const deltaX = event.clientX - pointerStart.x;
+    const deltaY = event.clientY - pointerStart.y;
+    if (Math.abs(deltaX) > 54 && Math.abs(deltaX) > Math.abs(deltaY)) moveChapter(deltaX < 0 ? 1 : -1);
+    pointerStart = null;
+  });
+  addEventListener("keydown", (event) => {
+    if (!caseViewer.open) return;
+    if (event.key === "ArrowRight") moveChapter(1);
+    if (event.key === "ArrowLeft") moveChapter(-1);
+  });
 
   const progressFor = (element) => {
     const rect = element.getBoundingClientRect();
@@ -55,16 +129,12 @@
   let frame = 0;
   let lastFrame = performance.now();
   const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const current = { hero: 0, highlights: 0, projects: projects.map((_, index) => index === 0 ? 1 : 0) };
-  const target = { hero: 0, highlights: 0, projects: projects.map((_, index) => index === 0 ? 1 : 0) };
+  const current = { hero: 0, highlights: 0 };
+  const target = { hero: 0, highlights: 0 };
 
   const measure = () => {
     target.hero = progressFor(hero);
     target.highlights = visibleProgressFor(highlightsSection);
-    const projectProgress = progressFor(projectScroll);
-    projects.forEach((_, index) => {
-      target.projects[index] = index === 0 ? 1 : Math.min(1, Math.max(0, projectProgress * (projects.length - 1) - (index - 1)));
-    });
   };
 
   const render = (time) => {
@@ -84,11 +154,6 @@
     page.style.setProperty("--hero-art-opacity", (heroArtEntry * (1 - heroArtExit)).toFixed(4));
     page.style.setProperty("--hero-art-exit", heroArtExit.toFixed(4));
     page.style.setProperty("--highlights-progress", current.highlights.toFixed(4));
-    projects.forEach((_, index) => {
-      current.projects[index] += (target.projects[index] - current.projects[index]) * ease;
-      page.style.setProperty(`--project-${index}`, current.projects[index].toFixed(4));
-      moving ||= Math.abs(target.projects[index] - current.projects[index]) > 0.0005;
-    });
     moving ||= Math.abs(target.hero - current.hero) > 0.0005 || Math.abs(target.highlights - current.highlights) > 0.0005;
     if (moving) frame = requestAnimationFrame(render);
     else frame = 0;
