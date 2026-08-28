@@ -1,71 +1,82 @@
 <!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Portfólio criativo de Keven Alves: vídeo, design, conteúdo e projetos digitais." />
-  <title>Keven Alves — Portfólio Criativo</title>
-  <link rel="stylesheet" href="./styles.css" />
-</head>
-<body>
-  <main id="page">
-    <header class="site-header">
-      <a class="wordmark" href="#inicio" aria-label="Ir para o início">KEVEN<span>®</span></a>
-      <nav aria-label="Navegação principal">
-        <a href="#destaques">Destaques</a>
-        <a href="#sobre">Sobre</a>
-        <a href="#servicos">Serviços</a>
-        <a href="#projetos">Projetos</a>
-      </nav>
-      <a class="header-contact" href="#contato">Contato ↗</a>
-    </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Portfólio criativo de Keven Alves — vídeo, design e projetos digitais." />
+    <title>Keven Alves — Portfólio Criativo</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="portfolio-data.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <main id="page">
+      <header class="site-header">
+        <a class="wordmark" href="#inicio" aria-label="Ir para o início">KEVEN<span>®</span></a>
+        <nav aria-label="Navegação principal">
+          <a href="#destaques">Destaques</a><a href="#sobre">Sobre</a><a href="#servicos">Serviços</a><a href="#projetos">Projetos</a>
+        </nav>
+        <a class="header-contact" href="#contato">Me contrate ↗</a>
+      </header>
 
-    <section class="hero-scroll" id="inicio" aria-labelledby="hero-title">
-      <div class="hero-stage">
-        <div class="hero-kicker"><span>Portfólio criativo</span><span>São Paulo — Brasil</span></div>
-        <h1 id="hero-title" class="hero-title"><span>Oi, eu sou</span><span class="hero-title__name">o Keven.</span></h1>
-        <div class="hero-art" aria-label="Espaço reservado para a ilustração do Keven">
-          <span class="hero-art__initials">KA</span>
-          <span class="hero-art__label">Sua ilustração entra aqui</span>
+      <section class="hero-scroll" id="inicio" aria-labelledby="hero-title">
+        <div class="hero-stage">
+          <div class="hero-kicker"><span>Portfólio criativo</span><span>São Paulo — Brasil</span></div>
+          <h1 id="hero-title" class="hero-title"><span>Oi, eu sou</span><span class="hero-title__name">o Keven.</span></h1>
+          <div class="hero-art" aria-label="Espaço reservado para a ilustração do Keven">
+            <span class="hero-art__initials">KA</span><span class="hero-art__label">Sua ilustração entra aqui</span>
+          </div>
+          <div class="hero-footer"><p>Criação, vídeo, design e projetos digitais.</p><a href="#destaques">Role para explorar ↓</a></div>
         </div>
-        <div class="hero-footer"><p>Criação, vídeo, design e projetos digitais.</p><a href="#destaques">Role para explorar ↓</a></div>
-      </div>
-    </section>
+      </section>
 
-    <section class="highlights section-shell" id="destaques" aria-labelledby="highlights-title">
-      <div class="section-heading reveal"><p class="eyebrow">Seleção / 01</p><h2 id="highlights-title">Destaques</h2><p class="section-intro">Uma seleção rápida de imagens, vídeos e trabalhos recentes.</p></div>
-      <div class="highlight-grid" id="highlight-grid"></div>
-    </section>
-
-    <section class="about section-shell" id="sobre" aria-labelledby="about-title">
-      <p class="eyebrow reveal">Sobre / 02</p>
-      <div class="about__content">
-        <h2 id="about-title" class="reveal">Sobre mim</h2>
-        <p class="about__lead reveal">Sou o Keven, um profissional criativo que transforma ideias em experiências visuais com identidade, ritmo e intenção.</p>
-        <div class="about__columns reveal">
-          <p>Meu trabalho passa por vídeo, design e conteúdo digital. Gosto de participar do processo inteiro: entender a ideia, encontrar uma linguagem e construir uma entrega que realmente faça sentido.</p>
-          <p>Este texto ainda é provisório. Depois ajustamos sua história, experiências, ferramentas e o tipo de projeto que você quer atrair.</p>
+      <section class="highlights-scroll" id="destaques" aria-labelledby="highlights-title">
+        <div class="highlights-stage">
+          <div class="section-heading section-heading--compact">
+            <p class="eyebrow">Seleção / 01</p><h2 id="highlights-title">Destaques</h2><p class="section-intro">Imagens e vídeos selecionados.</p>
+          </div>
+          <div class="highlight-rows">
+            <div class="highlight-track highlight-track--top" id="highlight-top"></div>
+            <div class="highlight-track highlight-track--bottom" id="highlight-bottom"></div>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="services section-shell" id="servicos" aria-labelledby="services-title">
-      <div class="section-heading reveal"><p class="eyebrow">Serviços / 03</p><h2 id="services-title">O que eu faço</h2></div>
-      <div class="service-list" id="service-list"></div>
-    </section>
+      <section class="about section-shell" id="sobre" aria-labelledby="about-title">
+        <p class="eyebrow reveal">Sobre / 02</p>
+        <div class="about__content">
+          <h2 id="about-title" class="reveal">Sobre mim</h2>
+          <p class="about__lead reveal">Sou o Keven, um profissional criativo que transforma ideias em experiências visuais com identidade, ritmo e intenção.</p>
+          <div class="about__columns reveal">
+            <p>Meu trabalho passa por vídeo, design e conteúdo digital. Gosto de participar do processo inteiro: entender a ideia, encontrar uma linguagem e construir uma entrega que realmente faça sentido.</p>
+            <p>Este texto ainda é provisório. Depois ajustamos sua história, experiências, ferramentas e o tipo de projeto que você quer atrair.</p>
+          </div>
+        </div>
+      </section>
 
-    <section class="projects section-shell" id="projetos" aria-labelledby="projects-title">
-      <div class="section-heading section-heading--light reveal"><p class="eyebrow">Projetos / 04</p><h2 id="projects-title">Projetos</h2><p class="section-intro">Cases completos para mostrar processo, decisões e resultado.</p></div>
-      <div class="project-grid" id="project-grid"></div>
-    </section>
+      <section class="services section-shell" id="servicos" aria-labelledby="services-title">
+        <div class="section-heading reveal"><p class="eyebrow">Serviços / 03</p><h2 id="services-title">O que eu faço</h2></div>
+        <div class="service-list" id="service-list"></div>
+      </section>
 
-    <footer class="contact" id="contato">
-      <p class="eyebrow">Contato / 05</p>
-      <a href="mailto:seuemail@exemplo.com" class="contact__headline">Vamos conversar? <span aria-hidden="true">↗</span></a>
-      <div class="contact__bottom"><p>© 2026 Keven Alves</p><p>Instagram · WhatsApp · E-mail</p><a href="#inicio">Voltar ao topo ↑</a></div>
-    </footer>
-  </main>
-  <script src="./portfolio-data.js"></script>
-  <script src="./app.js"></script>
-</body>
+      <section class="projects" id="projetos" aria-labelledby="projects-title">
+        <div class="section-shell projects__heading reveal">
+          <div class="section-heading section-heading--light"><p class="eyebrow">Projetos / 04</p><h2 id="projects-title">Projetos</h2><p class="section-intro">Um projeto por vez. Role para avançar ou voltar.</p></div>
+        </div>
+        <div class="project-scroll" id="project-scroll"><div class="project-stage" id="project-stage"></div></div>
+      </section>
+
+      <footer class="contact" id="contato">
+        <div class="contact__header"><p class="eyebrow">Contato / 05</p><h2>Me contrate</h2></div>
+        <div class="contact-list">
+          <a href="mailto:seuemail@exemplo.com"><span>01</span><strong>E-mail</strong><em>Adicionar endereço</em><b>↗</b></a>
+          <a href="#contato" aria-label="WhatsApp ainda não configurado"><span>02</span><strong>WhatsApp</strong><em>Adicionar número</em><b>↗</b></a>
+          <a href="#contato" aria-label="Instagram ainda não configurado"><span>03</span><strong>Instagram</strong><em>@seuusuario</em><b>↗</b></a>
+          <a href="#contato" aria-label="LinkedIn ainda não configurado"><span>04</span><strong>LinkedIn</strong><em>Adicionar perfil</em><b>↗</b></a>
+          <a href="#contato" aria-label="Behance ainda não configurado"><span>05</span><strong>Behance</strong><em>Adicionar portfólio</em><b>↗</b></a>
+        </div>
+        <div class="contact__bottom"><p>© 2026 Keven Alves</p><p>Disponível para projetos e colaborações</p><a href="#inicio">Voltar ao topo ↑</a></div>
+      </footer>
+    </main>
+  </body>
 </html>
