@@ -16,11 +16,10 @@
       <div class="highlight-card__meta"><h3>${item.title}</h3><p>${item.category}</p></div>
     </article>`;
 
-  const topHighlights = highlights.slice(0, 6);
-  const bottomHighlights = highlights.slice(6);
-  const repeatToFill = (items) => [...items, ...items.slice(0, 4)];
-  document.querySelector("#highlight-top").innerHTML = repeatToFill(topHighlights).map(highlightMarkup).join("");
-  document.querySelector("#highlight-bottom").innerHTML = repeatToFill(bottomHighlights).map((item, index) => highlightMarkup(item, (index % bottomHighlights.length) + 6)).join("");
+  const topHighlights = highlights.slice(0, 3);
+  const bottomHighlights = highlights.slice(3, 6);
+  document.querySelector("#highlight-top").innerHTML = topHighlights.map(highlightMarkup).join("");
+  document.querySelector("#highlight-bottom").innerHTML = bottomHighlights.map((item, index) => highlightMarkup(item, index + 3)).join("");
 
   document.querySelector("#service-list").innerHTML = services.map((service, index) => `
     <article class="service-row reveal">
@@ -49,7 +48,7 @@
 
   const visibleProgressFor = (element) => {
     const rect = element.getBoundingClientRect();
-    const travel = Math.max(element.offsetHeight + window.innerHeight, 1);
+    const travel = Math.max(element.offsetHeight, 1);
     return Math.min(1, Math.max(0, (window.innerHeight - rect.top) / travel));
   };
 
@@ -76,9 +75,13 @@
     current.hero += (target.hero - current.hero) * ease;
     current.highlights += (target.highlights - current.highlights) * ease;
     page.style.setProperty("--hero-progress", current.hero.toFixed(4));
-    const heroTextProgress = Math.min(1, Math.max(0, (current.hero - 0.06) / 0.2));
-    const heroArtExit = Math.min(1, Math.max(0, (current.hero - 0.66) / 0.2));
-    page.style.setProperty("--hero-text-progress", heroTextProgress.toFixed(4));
+    const heroArtEntry = Math.min(1, Math.max(0, (current.hero - 0.12) / 0.18));
+    const heroTextExit = Math.min(1, Math.max(0, (current.hero - 0.52) / 0.16));
+    const heroArtExit = Math.min(1, Math.max(0, (current.hero - 0.74) / 0.16));
+    page.style.setProperty("--hero-text-opacity", (1 - heroTextExit).toFixed(4));
+    page.style.setProperty("--hero-text-exit", heroTextExit.toFixed(4));
+    page.style.setProperty("--hero-art-entry", heroArtEntry.toFixed(4));
+    page.style.setProperty("--hero-art-opacity", (heroArtEntry * (1 - heroArtExit)).toFixed(4));
     page.style.setProperty("--hero-art-exit", heroArtExit.toFixed(4));
     page.style.setProperty("--highlights-progress", current.highlights.toFixed(4));
     projects.forEach((_, index) => {
