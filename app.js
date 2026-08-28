@@ -29,18 +29,18 @@
     </article>`).join("");
 
   const toolsUsed = [
-    { name: "Photoshop", mark: "Ps", color: "#31a8ff" },
-    { name: "Illustrator", mark: "Ai", color: "#ff9a00" },
-    { name: "InDesign", mark: "Id", color: "#ff3366" },
-    { name: "After Effects", mark: "Ae", color: "#9999ff" },
-    { name: "Premiere Pro", mark: "Pr", color: "#9999ff" },
-    { name: "DaVinci Resolve", mark: "Dv", color: "#ffcf48" },
-    { name: "ChatGPT", mark: "GPT", color: "#74aa9c" },
-    { name: "Canva", mark: "Ca", color: "#7d2ae8" },
-    { name: "GitHub", mark: "GH", color: "#f2f2ee" },
-    { name: "CapCut", mark: "Cc", color: "#f2f2ee" }
+    { name: "Adobe Photoshop", icon: "assets/tools/photoshop.svg" },
+    { name: "Adobe Illustrator", icon: "assets/tools/illustrator.svg" },
+    { name: "Adobe InDesign", icon: "assets/tools/indesign.svg" },
+    { name: "Adobe After Effects", icon: "assets/tools/after-effects.svg" },
+    { name: "Adobe Premiere Pro", icon: "assets/tools/premiere.svg" },
+    { name: "DaVinci Resolve", icon: "assets/tools/davinci-resolve.svg" },
+    { name: "ChatGPT", icon: "assets/tools/chatgpt.svg" },
+    { name: "Canva", icon: "assets/tools/canva.svg" },
+    { name: "GitHub", icon: "assets/tools/github.svg" },
+    { name: "CapCut", icon: "assets/tools/capcut.svg" }
   ];
-  const toolDockGroup = (hidden = false) => `<div class="tool-dock__group"${hidden ? ' aria-hidden="true"' : ""}>${toolsUsed.map((tool) => `<div class="tool-dock__item" style="--tool-color:${tool.color}"><span class="tool-dock__icon">${tool.mark}</span><strong>${tool.name}</strong></div>`).join("")}</div>`;
+  const toolDockGroup = (hidden = false) => `<div class="tool-dock__group"${hidden ? ' aria-hidden="true"' : ""}>${toolsUsed.map((tool) => `<div class="tool-dock__item"><img src="${tool.icon}" alt="" loading="lazy" decoding="async"><strong>${tool.name}</strong></div>`).join("")}</div>`;
   document.querySelector("#tool-dock-track").innerHTML = toolDockGroup() + toolDockGroup(true);
 
   const logoMarkup = (project, context = "grid") => project.logoImage

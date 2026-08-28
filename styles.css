@@ -186,19 +186,20 @@ main { --hero-progress: 0; --hero-text-opacity: 1; --hero-text-exit: 0; --hero-a
 .case-viewer__rail button { min-height: 58px; padding: 0 14px; border: 0; border-right: 1px solid var(--line); background: transparent; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; cursor: pointer; }
 .case-viewer__rail button[aria-pressed="true"] { background: var(--yellow); color: var(--black); font-weight: 900; }
 
-.tools-showcase { overflow: hidden; padding: 106px 0 118px; border-top: 1px solid rgba(0,0,0,.18); background: var(--yellow); color: var(--black); }
-.tools-showcase .eyebrow { color: rgba(0,0,0,.58); }
-.tools-showcase__heading { display: grid; grid-template-columns: 1fr 2.2fr 1fr; align-items: end; gap: 32px; padding: 0 var(--gutter); }
-.tools-showcase__heading h2 { margin: 0; font-family: "Arial Black", Impact, sans-serif; font-size: clamp(50px, 6.2vw, 90px); line-height: .88; letter-spacing: -.065em; }
-.tools-showcase__heading > p:last-child { max-width: 360px; margin: 0; font-size: 15px; font-weight: 600; line-height: 1.55; }
-.tool-dock { position: relative; margin-top: 72px; padding: 12px 0; overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
-.tool-dock__track { display: flex; width: max-content; gap: 14px; animation: tool-dock-marquee 34s linear infinite; will-change: transform; }
+.tools-showcase { overflow: hidden; padding: 72px 0 58px; border-top: 1px solid var(--line); background: var(--black); color: var(--white); }
+.tools-showcase__heading { padding: 0 var(--gutter); text-align: center; }
+.tools-showcase__heading h2 { margin: 0; font-family: "Arial Black", Impact, sans-serif; font-size: clamp(44px, 5.2vw, 72px); line-height: .92; letter-spacing: -.06em; }
+.tool-dock { position: relative; margin-top: 36px; padding: 28px 0 40px; overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.tool-dock__track { display: flex; width: max-content; gap: 18px; animation: tool-dock-marquee 32s linear infinite; will-change: transform; }
 .tool-dock:hover .tool-dock__track { animation-play-state: paused; }
-.tool-dock__group { display: flex; flex-shrink: 0; gap: 14px; }
-.tool-dock__item { display: grid; min-width: 174px; grid-template-columns: 58px auto; align-items: center; gap: 14px; padding: 12px 18px 12px 12px; border: 1px solid rgba(255,255,255,.13); border-radius: 18px; background: #0b0b0b; color: var(--white); box-shadow: 0 16px 30px rgba(0,0,0,.18); }
-.tool-dock__icon { display: grid; width: 58px; height: 58px; place-items: center; border: 1px solid color-mix(in srgb, var(--tool-color) 72%, transparent); border-radius: 13px; background: color-mix(in srgb, var(--tool-color) 12%, #090909); color: var(--tool-color); font-family: "Arial Black", Impact, sans-serif; font-size: 19px; letter-spacing: -.05em; }
-.tool-dock__item strong { max-width: 100px; font-size: 12px; line-height: 1.2; }
-@keyframes tool-dock-marquee { to { transform: translateX(calc(-50% - 7px)); } }
+.tool-dock__group { display: flex; flex-shrink: 0; align-items: center; gap: 18px; }
+.tool-dock__item { position: relative; display: grid; width: 82px; height: 82px; flex: 0 0 82px; place-items: center; transition: transform 260ms cubic-bezier(.2,.8,.2,1); }
+.tool-dock__item img { display: block; width: 62px; height: 62px; object-fit: contain; filter: drop-shadow(0 10px 14px rgba(0,0,0,.32)); transition: width 260ms cubic-bezier(.2,.8,.2,1), height 260ms cubic-bezier(.2,.8,.2,1), filter 260ms ease; }
+.tool-dock__item strong { position: absolute; top: calc(100% + 7px); left: 50%; width: max-content; max-width: 150px; padding: 5px 8px; border: 1px solid var(--line); border-radius: 7px; background: #151515; color: var(--white); font-size: 10px; font-weight: 600; line-height: 1; opacity: 0; pointer-events: none; transform: translate(-50%, -5px); transition: opacity 180ms ease, transform 180ms ease; }
+.tool-dock__item:hover { z-index: 3; transform: translateY(-8px) scale(1.16); }
+.tool-dock__item:hover img { filter: drop-shadow(0 14px 22px rgba(255,212,0,.18)); }
+.tool-dock__item:hover strong { opacity: 1; transform: translate(-50%, 0); }
+@keyframes tool-dock-marquee { to { transform: translateX(calc(-50% - 9px)); } }
 
 .contact { position: relative; min-height: 100vh; display: flex; flex-direction: column; overflow: hidden; padding: 104px var(--gutter) var(--gutter); border-top: 1px solid var(--line); background: #080a0f; isolation: isolate; }
 .contact::before { content: ""; position: absolute; inset: 0; z-index: -3; background: linear-gradient(120deg, rgba(255,255,255,0.025), transparent 42%), radial-gradient(circle at 52% 46%, rgba(255,212,0,0.035), transparent 32%); }
@@ -246,8 +247,6 @@ main { --hero-progress: 0; --hero-text-opacity: 1; --hero-text-exit: 0; --hero-a
   .section-heading .section-intro { grid-column: 2; }
   .highlight-card { flex-basis: 29vw; min-width: 230px; }
   .project-logo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .tools-showcase__heading { grid-template-columns: 1fr 2fr; }
-  .tools-showcase__heading > p:last-child { grid-column: 2; }
   .contact__grid { grid-template-columns: 1fr; gap: 72px; }
   .contact__intro { min-height: 70vh; }
 }
@@ -319,14 +318,12 @@ main { --hero-progress: 0; --hero-text-opacity: 1; --hero-text-exit: 0; --hero-a
   .case-viewer__timer > span { font-size: 10px; }
   .case-viewer__rail { grid-auto-columns: minmax(118px, 1fr); }
   .case-viewer__rail button { min-height: 58px; }
-  .tools-showcase { padding-top: 82px; padding-bottom: 90px; }
-  .tools-showcase__heading { grid-template-columns: 1fr; gap: 24px; }
-  .tools-showcase__heading h2 { font-size: clamp(46px, 13vw, 66px); }
-  .tools-showcase__heading > p:last-child { grid-column: auto; }
-  .tool-dock { margin-top: 54px; }
-  .tool-dock__track, .tool-dock__group { gap: 10px; }
-  .tool-dock__item { min-width: 156px; grid-template-columns: 50px auto; gap: 11px; border-radius: 15px; }
-  .tool-dock__icon { width: 50px; height: 50px; border-radius: 11px; font-size: 17px; }
+  .tools-showcase { padding-top: 58px; padding-bottom: 38px; }
+  .tools-showcase__heading h2 { font-size: clamp(40px, 11vw, 56px); }
+  .tool-dock { margin-top: 24px; padding-top: 24px; }
+  .tool-dock__track, .tool-dock__group { gap: 12px; }
+  .tool-dock__item { width: 70px; height: 70px; flex-basis: 70px; }
+  .tool-dock__item img { width: 54px; height: 54px; }
   .contact { padding-top: 86px; }
   .contact__grid { gap: 48px; }
   .contact__intro { min-height: auto; }
